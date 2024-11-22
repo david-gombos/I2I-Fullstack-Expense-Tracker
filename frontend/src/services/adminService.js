@@ -1,91 +1,26 @@
-import axios from "axios";
-import AuthService from "./auth.service";
-import API_BASE_URL from "./auth.config";
+import axios from 'axios';
+import AuthService from './auth.service';
 
-const getAllTransactions = (pagenumber, pageSize, searchKey) => {
-    return axios.get(
-        API_BASE_URL + "/transaction/getAll",
-        {
-            headers: AuthService.authHeader(),
-            params: {
-                pageNumber: pagenumber,
-                pageSize: pageSize,
-                searchKey: searchKey
-            }
-        }
-    )
-}
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const getAllUsers = (pagenumber, pageSize, searchKey) => {
-    return axios.get(
-        API_BASE_URL + "/user/getAll",
-        {
-            headers: AuthService.authHeader(),
-            params: {
-                pageNumber: pagenumber,
-                pageSize: pageSize,
-                searchKey: searchKey
-            }
-        }
-    )
-}
-
-const disableOrEnableUser = (userId) => {
-    return axios.delete(
-        API_BASE_URL + "/user/disable",
-        {
-            headers: AuthService.authHeader(),
-            params: {
-                userId: userId
-            }
-        }
-    )
-}
-
-const getAllcategories = () => {
-    return axios.get(
-        API_BASE_URL + '/category/getAll', 
-        {
-            headers: AuthService.authHeader()
-        }
-    )
-}
-
-const updatecategory = (categoryId, categoryName, transactionTypeId) => {
-    return axios.put(
-        API_BASE_URL + '/category/update', 
+const addCategory = (categoryName, transactionTypeId) => {
+    return axios.post(
+        `${API_BASE_URL}/category/new`,
         {
             categoryName: categoryName,
             transactionTypeId: transactionTypeId
         },
         {
-            headers: AuthService.authHeader(),
-            params: {
-                categoryId: categoryId
-            }
+            headers: AuthService.authHeader()
         }
-    )
-}
-
-const disableOrEnableCategory = (categoryId) => {
-    return axios.delete(
-        API_BASE_URL + "/category/delete",
-        {
-            headers: AuthService.authHeader(),
-            params: {
-                categoryId: categoryId
-            }
+    ).then((response) => {
+        if (response.data.status === "SUCCESS") {
+            return Promise.resolve(response.data.response);
         }
-    )
-}
+        return Promise.reject(response.data.response);
+    }).catch((error) => {
+        if (error.response) {
+            return Promise.reject(error.response.data.response);
+        }
+        return Promise.reject("Failed to axios.post method to make an authenticated request to our backend.
 
-const AdminService = {
-    getAllTransactions,
-    getAllUsers,
-    disableOrEnableUser,
-    getAllcategories,
-    updatecategory,
-    disableOrEnableCategory,
-}
-
-export default AdminService;
