@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -26,7 +25,7 @@ public class CategoryController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<ApiResponseDto<?>> addCategory(@Validated @RequestBody Category category) {
+    public ResponseEntity<ApiResponseDto<?>> addCategory(@RequestBody Category category) {
         try {
             var newCategory = categoryService.addCategory(category);
             return ResponseEntity.ok(new ApiResponseDto<>(

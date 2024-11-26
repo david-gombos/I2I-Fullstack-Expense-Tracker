@@ -79,6 +79,24 @@ const disableOrEnableCategory = (categoryId) => {
     )
 }
 
+const addCategory = (categoryDetails) => {
+  return axios.post(
+    `${API_BASE_URL}/category/add`,
+    categoryDetails,
+    {
+      headers: AuthService.authHeader(),
+    }
+  )
+  .then(response => response.data)
+  .catch(error => {
+    const message = error.response && error.response.data
+      ? error.response.data.message
+      : 'Failed to add category. Try again later.';
+    throw new Error(message);
+  });
+};
+
+
 const AdminService = {
     getAllTransactions,
     getAllUsers,
@@ -86,6 +104,7 @@ const AdminService = {
     getAllcategories,
     updatecategory,
     disableOrEnableCategory,
+    addCategory
 }
 
 export default AdminService;

@@ -28,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public ResponseEntity<ApiResponseDto<?>> addCategory(Category category) throws CategoryServiceLogicException {
         try {
-            Optional<Category> existingCategory = categoryRepository.findByName(category.getCategoryName());
+            Optional<Category> existingCategory = categoryRepository.findByCategoryName(category.getCategoryName());
             if (existingCategory.isPresent()) {
                 throw new CategoryServiceLogicException("Category with the same name already exists!");
             }

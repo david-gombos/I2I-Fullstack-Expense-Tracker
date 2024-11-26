@@ -29,6 +29,7 @@ const AdminUsersManagement = lazy(() => import('./pages/admin/users.js'))
 const AdminCategoriesManagement = lazy(() => import('./pages/admin/categories.js'))
 const NotFoundPage = lazy(() => import('./pages/auth/notFound'))
 const AdminProfile = lazy(() => import('./pages/admin/adminProfile.js'))
+const AddCategory = lazy(() => import('./pages/admin/addCategory.js'))
 const UserProfile = lazy(() => import('./pages/user/userProfile.js'))
 const UserStatistics = lazy(() => import('./pages/user/statistics.js'))
 
@@ -74,6 +75,7 @@ function App() {
                             <Route path='/admin/transactions' element={<AdminTransactionsManagement />} />
                             <Route path='/admin/users' element={<AdminUsersManagement />} />
                             <Route path='/admin/categories' element={<AdminCategoriesManagement />} />
+                            <Route path='/admin/addCategories' element={<AddCategory />} />
                             <Route path='/admin/settings' element={<AdminProfile />} />
                         </Route>
 

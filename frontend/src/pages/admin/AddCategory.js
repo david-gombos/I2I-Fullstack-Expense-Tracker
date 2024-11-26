@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import AdminService from '../../services/AdminService';
+import AdminService from '../../services/adminService';
 import { toast, Toaster } from 'react-hot-toast';
 
 function AddCategory() {
