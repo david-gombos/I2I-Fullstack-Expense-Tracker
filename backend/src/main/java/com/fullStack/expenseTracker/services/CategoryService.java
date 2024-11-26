@@ -10,5 +10,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface CategoryService {
+
+    ResponseEntity<ApiResponseDto<?>> getCategories();
+
+    boolean existsCategory(int id);
+
+    Category getCategoryById(int id) throws CategoryNotFoundException;
+
+    ResponseEntity<ApiResponseDto<?>> enableOrDisableCategory(int categoryId) throws CategoryServiceLogicException, CategoryNotFoundException;
+
     Category addCategory(Category category) throws CategoryServiceLogicException;
 }

@@ -1,12 +1,14 @@
 package com.fullStack.expenseTracker.services.impls;
 
 import com.fullStack.expenseTracker.dtos.ApiResponseDto;
+import com.fullStack.expenseTracker.services.CategoryService;
+import com.fullStack.expenseTracker.services.TransactionTypeService;
+import com.fullStack.expenseTracker.dto.reponses.ApiResponseDto;
 import com.fullStack.expenseTracker.enums.ApiResponseStatus;
 import com.fullStack.expenseTracker.exceptions.CategoryNotFoundException;
 import com.fullStack.expenseTracker.exceptions.CategoryServiceLogicException;
 import com.fullStack.expenseTracker.models.Category;
 import com.fullStack.expenseTracker.repository.CategoryRepository;
-import com.fullStack.expenseTracker.services.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private TransactionTypeService transactionTypeService;
 
     @Override
     public ResponseEntity<ApiResponseDto<?>> addCategory(Category category) throws CategoryServiceLogicException {
