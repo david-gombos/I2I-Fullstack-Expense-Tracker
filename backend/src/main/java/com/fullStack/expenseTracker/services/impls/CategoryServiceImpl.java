@@ -1,9 +1,8 @@
 package com.fullStack.expenseTracker.services.impls;
 
-import com.fullStack.expenseTracker.dtos.ApiResponseDto;
+import com.fullStack.expenseTracker.dto.reponses.ApiResponseDto;
 import com.fullStack.expenseTracker.services.CategoryService;
 import com.fullStack.expenseTracker.services.TransactionTypeService;
-import com.fullStack.expenseTracker.dto.reponses.ApiResponseDto;
 import com.fullStack.expenseTracker.enums.ApiResponseStatus;
 import com.fullStack.expenseTracker.exceptions.CategoryNotFoundException;
 import com.fullStack.expenseTracker.exceptions.CategoryServiceLogicException;
@@ -34,9 +33,11 @@ public class CategoryServiceImpl implements CategoryService {
                 throw new CategoryServiceLogicException("Category with the same name already exists!");
             }
             Category savedCategory = categoryRepository.save(category);
-            return ResponseEntity.status(HttpStatus.CREATED).body(
-                new ApiResponseDto<>(ApiResponseStatus.SUCCESS, HttpStatus.CREATED, savedCategory)
-            );
+            return ResponseEntity.ok(new ApiResponseDto<>(
+                        ApiResponseStatus.SUCCESS,
+                        HttpStatus.CREATED,
+                        savedCategory
+            ));
         } catch (Exception e) {
             log.error("Failed to add category: " + e.getMessage());
             throw new CategoryServiceLogicException("Failed to add category: Try again later!");
@@ -45,8 +46,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public ResponseEntity<ApiResponseDto<?>> enableOrDisableCategory(int categoryId) throws CategoryServiceLogicException, CategoryNotFoundException {
-        Category category = getCategoryById(categoryId);
         try {
+            Category category = getCategoryById(categoryId);
             category.setEnabled(!category.isEnabled());
             categoryRepository.save(category);
             return ResponseEntity.status(HttpStatus.OK).body(

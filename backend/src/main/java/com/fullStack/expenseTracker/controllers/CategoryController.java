@@ -1,14 +1,17 @@
 package com.fullStack.expenseTracker.controllers;
 
-import com.fullStack.expenseTracker.dto.ApiResponseDto;
-import com.fullStack.expenseTracker.dto.ApiResponseStatus;
+
+import com.fullStack.expenseTracker.dto.reponses.ApiResponseDto;
+import com.fullStack.expenseTracker.enums.ApiResponseStatus;
+import com.fullStack.expenseTracker.exceptions.CategoryNotFoundException;
+import com.fullStack.expenseTracker.exceptions.CategoryServiceLogicException;
 import com.fullStack.expenseTracker.models.Category;
 import com.fullStack.expenseTracker.services.CategoryService;
-import com.fullStack.expenseTracker.services.exceptions.CategoryServiceLogicException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +28,12 @@ public class CategoryController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ApiResponseDto<?>> addCategory(@Validated @RequestBody Category category) {
         try {
-            Category newCategory = categoryService.addCategory(category);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(new ApiResponseDto<>(ApiResponseStatus.SUCCESS, HttpStatus.CREATED, newCategory));
+            var newCategory = categoryService.addCategory(category);
+            return ResponseEntity.ok(new ApiResponseDto<>(
+                    ApiResponseStatus.SUCCESS,
+                    HttpStatus.CREATED,
+                    newCategory
+            ));
         } catch (CategoryServiceLogicException e) {
             log.error("Failed to add category: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -37,7 +43,7 @@ public class CategoryController {
 
     @DeleteMapping("/delete")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<ApiResponseDto<?>> disableOrEnableCategory(@RequestParam("categoryId") int categoryId) 
+    public ResponseEntity<ApiResponseDto<?>> disableOrEnableCategory(@RequestParam("categoryId") int categoryId)
             throws CategoryServiceLogicException, CategoryNotFoundException {
         return categoryService.enableOrDisableCategory(categoryId);
     }
