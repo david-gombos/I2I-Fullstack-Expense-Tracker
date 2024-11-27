@@ -17,4 +17,6 @@ public interface CategoryService {
     Category getCategoryById(int id) throws CategoryNotFoundException;
 
     ResponseEntity<ApiResponseDto<?>> enableOrDisableCategory(int categoryId) throws CategoryServiceLogicException, CategoryNotFoundException;
+
+    ResponseEntity<ApiResponseDto<?>> addCategory(Category category) throws CategoryServiceLogicException;
 }

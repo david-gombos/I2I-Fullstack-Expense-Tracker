@@ -63,6 +63,13 @@ const SideBarLinks = [
         "role": "ROLE_ADMIN"
     },
     {
+        "id": 62,
+        "name": "Add Categories",
+        "icon": "fa fa-th-large",
+        "to": "/admin/addCategories",
+        "role": "ROLE_ADMIN"
+    },
+    {
         "id": 8,
         "name": "Settings",
         "icon": "fa fa-cog",
