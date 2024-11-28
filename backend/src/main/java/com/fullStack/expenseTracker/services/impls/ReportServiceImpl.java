@@ -5,6 +5,7 @@ import com.fullStack.expenseTracker.enums.ApiResponseStatus;
 import com.fullStack.expenseTracker.dto.reponses.TransactionsMonthlySummaryDto;
 import com.fullStack.expenseTracker.repository.TransactionRepository;
 import com.fullStack.expenseTracker.services.ReportService;
+import jdk.jshell.spi.ExecutionControl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -67,5 +68,10 @@ public class ReportServiceImpl implements ReportService {
                         transactionsMonthlySummary
                 )
         );
+    }
+
+    @Override
+    public ResponseEntity<ApiResponseDto<?>> getSummaryByDateRange(String email, String startDate, String endDate) {
+        return null;
     }
 }

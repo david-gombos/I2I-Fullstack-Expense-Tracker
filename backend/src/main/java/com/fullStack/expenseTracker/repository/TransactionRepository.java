@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -72,4 +73,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             "WHERE u.email = :email and t.date >= DATE_SUB(CURRENT_DATE(), INTERVAL 5 MONTH) " +
             "GROUP BY YEAR(t.date), MONTH(t.date)", nativeQuery = true)
     List<Object[]> findMonthlySummaryByUser(@Param("email") String email);
+
+    @Query("SELECT t FROM Transaction t WHERE t.user.id = :id AND t.date BETWEEN :startDate AND :endDate")
+    List<Transaction> findTransactionsByDateRange(@Param("email") String email, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

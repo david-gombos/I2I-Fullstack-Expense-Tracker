@@ -52,4 +52,12 @@ public class ReportController {
         return reportService.getMonthlySummaryByUser(email);
     }
 
+    @GetMapping("/getSummaryByDateRange")
+    @PreAuthorize(("hasRole('ROLE_USER')"))
+    public ResponseEntity<ApiResponseDto<?>> getSummaryByDateRange(@Param("email") String email,
+                                                                   @Param("startDate") String startDate,
+                                                                   @Param("endDate") String endDate) {
+        return reportService.getSummaryByDateRange(email, startDate, endDate);
+    }
+
 }
