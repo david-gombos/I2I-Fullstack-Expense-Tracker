@@ -66,4 +66,17 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
+    @Override
+    public ResponseEntity<ApiResponseDto<?>> addCategory(Category category) throws CategoryServiceLogicException {
+        if (categoryRepository.existsByCategoryNameAndTransactionType(category.getCategoryName(), category.getTransactionType())) {
+            throw new CategoryServiceLogicException("Category with the same name and transaction type already exists.");
+        }
+
+        categoryRepository.save(category);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                new ApiResponseDto<>(ApiResponseStatus.SUCCESS, HttpStatus.CREATED, "Category has been added successfully!")
+        );
+    }
+
 }

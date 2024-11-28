@@ -10,6 +10,7 @@ import { ThemeContext, useTheme } from './contexts/ThemeContext.js';
 import NewSavedTransaction from './pages/user/newSavedTransaction.js';
 import SavedTransactions from './pages/user/savedTransactions.js';
 import EditSavedTransaction from './pages/user/editSavedTransaction.js';
+import AddCategory from "./pages/admin/AddCategory";
 
 const Welcome = lazy(() => import('./pages/welcome.js'))
 const Login = lazy(() => import('./pages/auth/login/login.js'))
@@ -74,6 +75,7 @@ function App() {
                             <Route path='/admin/transactions' element={<AdminTransactionsManagement />} />
                             <Route path='/admin/users' element={<AdminUsersManagement />} />
                             <Route path='/admin/categories' element={<AdminCategoriesManagement />} />
+                            <Route path="/admin/add-category" element={<AddCategory />} />
                             <Route path='/admin/settings' element={<AdminProfile />} />
                         </Route>
 
