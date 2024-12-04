@@ -73,20 +73,7 @@ docker-compose up -d
 
 ### 3. Backend Setup
 You have two options to run the backend application:
-- Either run `ExpenseTrackerApplication.java` using your IDE, OR
-
-- Use maven to run the application:
-
-```bash
-# Navigate to the backend directory
-cd backend
-
-# Build the project
-mvn clean install
-
-# Run the Spring Boot application
-mvn spring-boot:run
-```
+- Either run `ExpenseTrackerApplication.java` using your IDE
 
 ### 4. Frontend Setup
 ```bash
