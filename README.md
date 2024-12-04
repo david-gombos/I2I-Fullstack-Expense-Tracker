@@ -72,8 +72,7 @@ docker-compose up -d
 ```
 
 ### 3. Backend Setup
-You have two options to run the backend application:
-- Either run `ExpenseTrackerApplication.java` using your IDE
+- Run `ExpenseTrackerApplication.java` using your IDE
 
 ### 4. Frontend Setup
 ```bash
