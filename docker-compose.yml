@@ -18,10 +18,18 @@ services:
   currency_converter_api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: currency-converter-Dockerfile
     ports:
       - "8000:8000"
     container_name: currency_converter_api_container
+
+  mock_ads_api:
+    build:
+      context: .
+      dockerfile: mock-ads-Dockerfile
+    ports:
+      - "8888:8000"
+    container_name: mock_ads_api_container
 
 volumes:
   mysql_data:
