@@ -4,6 +4,7 @@ from typing import List
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
 
 @asynccontextmanager
@@ -32,6 +33,8 @@ async def lifespan(app: FastAPI):
 
 # Create the FastAPI app with the lifespan context
 app = FastAPI(lifespan=lifespan)
+
+app.mount("/images", StaticFiles(directory="images"), name="images")
 
 @app.get("/ad", response_model=List)
 async def list_ads():

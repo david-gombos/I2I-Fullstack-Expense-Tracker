@@ -6,6 +6,7 @@ WORKDIR /app
 # Copy application files
 COPY mock-ads-api/main.py /app/
 COPY mock-ads-api/static_data /app/static_data/
+COPY mock-ads-api/images /app/images/
 
 # Copy the dependencies file
 COPY mock-ads-api/requirements.txt /app/
