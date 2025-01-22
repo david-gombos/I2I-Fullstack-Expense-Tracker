@@ -1,69 +1,41 @@
 package com.fullStack.expenseTracker.services.impls;
 
-import com.fullStack.expenseTracker.services.CategoryService;
-import com.fullStack.expenseTracker.services.TransactionTypeService;
-import com.fullStack.expenseTracker.dto.reponses.ApiResponseDto;
-import com.fullStack.expenseTracker.enums.ApiResponseStatus;
-import com.fullStack.expenseTracker.exceptions.CategoryNotFoundException;
-import com.fullStack.expenseTracker.exceptions.CategoryServiceLogicException;
 import com.fullStack.expenseTracker.models.Category;
-import com.fullStack.expenseTracker.repository.CategoryRepository;
-import lombok.extern.slf4j.Slf4j;
+import com.fullStack.expenseTracker.repositories.CategoryRepository;
+import com.fullStack.expenseTracker.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-@Slf4j
+import javax.transaction.Transactional;
+
+@Service
 public class CategoryServiceImpl implements CategoryService {
+
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @Autowired
-    private TransactionTypeService transactionTypeService;
-
     @Override
-    public ResponseEntity<ApiResponseDto<?>> getCategories() {
-        return ResponseEntity.ok(
-                new ApiResponseDto<>(
-                        ApiResponseStatus.SUCCESS,
-                        HttpStatus.OK,
-                        categoryRepository.findAll()
-                )
-        );
-    }
-
-    @Override
-    public boolean existsCategory(int id) {
-        return categoryRepository.existsById(id);
-    }
-
-    @Override
-    public Category getCategoryById(int id) throws CategoryNotFoundException {
-        return categoryRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException("Category not found with id" + id));
-    }
-
-    @Override
-    public ResponseEntity<ApiResponseDto<?>> enableOrDisableCategory(int categoryId)
-            throws CategoryServiceLogicException, CategoryNotFoundException {
-        Category category = getCategoryById(categoryId);
-
-        try {
-
-            category.setEnabled(!category.isEnabled());
-            categoryRepository.save(category);
-
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ApiResponseDto<>(
-                            ApiResponseStatus.SUCCESS, HttpStatus.OK, "Category has been updated successfully!"
-                    )
-            );
-        }catch(Exception e) {
-            log.error("Failed to enable/disable category: " + e.getMessage());
-            throw new CategoryServiceLogicException("Failed to update category: Try again later!");
+    @Transactional
+    public Category createCategory(Category category) {
+        // Validation to ensure the category name is unique and the type is set to 'Income'
+        if (category == null) {
+            throw new IllegalArgumentException("Category cannot be null");
         }
-    }
 
+        if (category.getName() == null || category.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Category name cannot be empty");
+        }
+
+        if (!"Income".equalsIgnoreCase(category.getType())) {
+            throw new IllegalArgumentException("Category type must be 'Income'");
+        }
+
+        // Check if category already exists
+        if (categoryRepository.existsByName(category.getName())) {
+            throw new IllegalArgumentException("Category with this name already exists");
+        }
+
+        // Save the new category to the database
+        return categoryRepository.save(category);
+    }
 }
