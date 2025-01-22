@@ -1,0 +1,28 @@
+/* CurrencySelector.css */
+
+/* Styles for the Currency Selector Dropdown */
+.dropdown {
+    width: 200px; /* Width of the dropdown */
+    padding: 10px; /* Padding inside the dropdown */
+    border: 1px solid #ccc; /* Border styling */
+    border-radius: 5px; /* Rounded corners */
+    background-color: white; /* Dropdown background color */
+    font-size: 16px; /* Font size for dropdown text */
+    color: #333; /* Font color */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+/* Additional styling for options in the dropdown */
+.dropdown option {
+    padding: 10px; /* Padding for options */
+}
+
+.dropdown:hover {
+    border-color: #68a0cf; /* Change border color on hover */
+}
+
+.dropdown:focus {
+    outline: none; /* Remove default outline */
+    border-color: #68a0cf; /* Highlight border on focus */
+}
