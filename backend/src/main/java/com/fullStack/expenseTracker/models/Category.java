@@ -1,33 +1,74 @@
 package com.fullStack.expenseTracker.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Category {
+
+    public enum CategoryType {
+        INCOME,
+        EXPENSE;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer categoryId;
+    private Long id;
 
-    private String categoryName;
+    @NotBlank(message = "Category name is required")
+    @Size(max = 50, message = "Category name must not exceed 50 characters")
+    private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "transactionTypeId")
-    private TransactionType transactionType;
+    @Enumerated(EnumType.STRING)
+    @NotBlank(message = "Category type is required")
+    private CategoryType type;
 
-    private boolean enabled;
+    // Default constructor
+    public Category() {}
 
+    // Parameterized constructor
+    public Category(String name, CategoryType type) {
+        this.name = name;
+        this.type = type;
+    }
 
-    public Category(String categoryName, TransactionType transactionType, boolean enabled) {
-        this.categoryName = categoryName;
-        this.transactionType = transactionType;
-        this.enabled = enabled;
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public CategoryType getType() {
+        return type;
+    }
+
+    public void setType(CategoryType type) {
+        this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                '}';
     }
 }
