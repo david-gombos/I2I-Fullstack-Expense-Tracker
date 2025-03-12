@@ -81,6 +81,7 @@ function App() {
                         <Route path="/auth/login" element={<Login />} />
                         <Route path="/auth/register" element={<Register />} />
                         <Route path="/unauthorized" element={<UnAuthorizedAccessPage />} />
+                        <Route path="/profile" component={ProfilePage} />
                         <Route path="*" element={<NotFoundPage />} />
                     </Routes>
                 </RoutesWrapper>

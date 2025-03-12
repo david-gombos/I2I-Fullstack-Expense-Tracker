@@ -243,6 +243,27 @@ public class AuthServiceImpl implements AuthService {
         return roles;
     }
 
+    @Override
+    public ResponseEntity<ApiResponseDto<?>> updateProfile(UpdateProfileRequestDto updateProfileRequestDto) throws UserNotFoundException, UserServiceLogicException {
+        User user = userService.findByEmail(updateProfileRequestDto.getEmail());
+        if (user == null) {
+            throw new UserNotFoundException("User not found with email " + updateProfileRequestDto.getEmail() + "!");
+        }
+
+        try {
+            user.setName(updateProfileRequestDto.getName());
+            user.setPassword(passwordEncoder.encode(updateProfileRequestDto.getPassword()));
+            userRepository.save(user);
+
+            return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseDto<>(
+                    ApiResponseStatus.SUCCESS, HttpStatus.OK, "Profile updated successfully!"
+            ));
+        } catch (Exception e) {
+            log.error("Profile update failed: {}", e.getMessage());
+            throw new UserServiceLogicException("Profile update failed: Something went wrong!");
+        }
+    }
+
 
 
 }
